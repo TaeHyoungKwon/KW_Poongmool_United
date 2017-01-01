@@ -1,23 +1,23 @@
 
 <html>
-<body>
+  <body>
 
 
     {% for notice in notice_list %}
-  
-      {{ notice.title }}<br/>
-      {{ notice.message }}<br/>
 
-      {{ notice.timestamp }}<br/>
+    <a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a><br/>
+    {{ notice.message }}<br/>
 
-      {{ notice.updated }}<br/>
+    {{ notice.timestamp }}<br/>
 
-      {{ notice.id }}<br/>
+    {{ notice.updated }}<br/>
 
-      {% endfor %}
+    {{ notice.id }}<br/>
+
+    {% endfor %}
 
 
-</body>
+  </body>
 </html>
 
 
