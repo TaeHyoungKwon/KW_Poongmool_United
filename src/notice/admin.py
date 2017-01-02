@@ -1,4 +1,12 @@
 from django.contrib import admin
 from .models import Notice
+from django_summernote.admin import SummernoteModelAdmin
 
-admin.site.register(Notice)
+
+
+class NoticeModelAdmin(SummernoteModelAdmin):
+    pass
+
+
+admin.site.register(Notice,NoticeModelAdmin)
+

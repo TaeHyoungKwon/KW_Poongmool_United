@@ -7,6 +7,9 @@ class Notice(models.Model):
     message = models.TextField(default=None)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    likes = models.PositiveIntegerField(default=0)
+    hit = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.title
@@ -14,6 +17,10 @@ class Notice(models.Model):
     def get_absolute_url(self):
         #return "/notice/%s" % (self.id)
         return reverse("notice:notice_detail",kwargs={"id": self.id})
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
 
 
 

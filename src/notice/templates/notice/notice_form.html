@@ -1,6 +1,7 @@
-<html>
+{% extends "home/base.html"%}
 
-  <body>
+{% block content %}
+  
 
     <form method="POST" action=""> {% csrf_token %}   
 
@@ -9,5 +10,6 @@
 
       <input type='submit' value='Create Post' />
     </form>
-  </body>
-</html>
+
+{% endblock content %}
+

@@ -23,10 +23,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^notice/', include('notice.urls',namespace='notice')),
     url(r'^home/', include('home.urls',namespace='home')),
+    url(r'^summernote/', include('django_summernote.urls')),
+
 
 ]
 
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

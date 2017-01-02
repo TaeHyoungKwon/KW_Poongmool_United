@@ -1,24 +1,65 @@
+{% extends "home/base.html"%}
 
-<html>
-  <body>
+{% block content %}
 
-
-    {% for notice in notice_list %}
-
-    <a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a><br/>
-    {{ notice.message }}<br/>
-
-    {{ notice.timestamp }}<br/>
-
-    {{ notice.updated }}<br/>
-
-    {{ notice.id }}<br/>
-
-    {% endfor %}
+<div style="width:65%;float:left;" id="notice" class='col-md-8'>
 
 
-  </body>
-</html>
+  {% for notice in notice_list %}
+
+  <div  class="row">
+    <div style="border:solid 2px;" class="thumbnail">
+      <div class="caption">
+        <h5>{{notice.timestamp}}</h5>
+        </hr>
+        <h3><a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a>
+          <small>{{ notice.timestamp | timesince  }}</small>
+        </h3><br/>
+        <!--   {{ notice.message|linebreaks|truncatechars:80 }}<br/><hr/>-->
+
+
+        <div style="font-size:15px;overflow:hidden;display:inline;width:50%">
+          <a  href="{{notice.get_absolute_url}}#disqus_thread">0 Comment</a> | {{notice.likes}} likes | {{notice.hit}} hit
+        </div>
+        <div style="float:right;overflow:hidden;display:inline;width:50%">
+
+        </div>
+
+      </div>
+
+    </div>
+    <hr/>
+  </div>
+  {% endfor %}
+
+</div>
+
+<aside style="width:35%;float:left" class="col-md-4">
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px;height:300px">
+
+
+    <h3 style="text-align:center;">조회수 TOP5</h3>
+    {% for hit in rank_hit %}
+    <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}}</li>
+    {% endfor  %}
+  </div>
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px;height:300px">
+    <h3 style="text-align:center">좋아요 TOP5</h3>
+
+    {% for like in rank_like %}
+    <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}}</li>
+    {% endfor  %}
+
+  </div>
+
+</aside>
+
+
+</div>
+{% endblock content %}
+
 
 
 
