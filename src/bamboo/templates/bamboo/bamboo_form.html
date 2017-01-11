@@ -1,0 +1,31 @@
+{% extends "home/base.html"%}
+
+
+
+{% block content %}
+
+<div class="col-md-4">
+
+  <div>
+    <h5>-  대나무 숲의 모든 글은 완전 익명처리되어있습니다.</h5>
+    <h5>-  안심하시고 사용하셔도 됩니다.</h5>
+    <h5>-  글 수정, 삭제를 위해 '패스워드'를 꼭 기억해주세요.</h5>
+
+</div>
+
+</div>
+
+<div class="col-md-5">
+  <h1 style="padding-bottom:20px;">대나무숲 글을 작성하세요.</h1>
+  <form method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}   
+
+    {{ form.as_p }}
+
+
+<button style="font-weight:bold;" type="submit" class="btn btn-success btn-md">글 작성하기</button>
+  </form>
+</div>
+
+
+{% endblock content %}
+

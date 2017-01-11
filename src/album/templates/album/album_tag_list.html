@@ -1,0 +1,138 @@
+{% extends "home/base.html"%}
+
+{% load thumbnail %}
+
+{% block content %}
+
+<div>
+  <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
+    <li><a href="#">메인</a></li>
+
+    <li><a href="{% url "album:album_list"%}">{{title}}</a></li>
+    {% block album_detail_link %}
+    {% endblock %}
+
+  </ol>
+</div>
+
+
+<div class="page-header">
+  <h1 style="color:tomato">풍연앨범 <small>:풍연 관련 사진 및 영상을 공유할 수 있습니다.</small></h1>
+</div>
+
+
+<div id="columns">
+  {% for album in album_list %}
+
+  <figure>
+    <p>{{album.timestamp}} | {{album.name}}</p>
+    <a href="{{album.get_absolute_url}}">
+
+
+      {% thumbnail album.photo "x500" crop="center" as thumb %}
+      <img src="{{ thumb.url }}">
+      {% endthumbnail %}
+
+      <h3>{{album.title}}</h3></hr>
+      <h5><a href="{{album.get_absolute_url}}#disqus_thread">0 Comment</a> | {{album.likes}} likes | {{album.hit}} hit</h5></hr>
+        <li class="tags">
+
+          {% for tag in album.tags.all  %}
+          <a href="{% url "album:tagged" slug=tag.slug  %}">{{tag.name}}</a>
+          {% endfor %}
+ 
+        </li>
+
+
+
+  </figure>
+  {% endfor %}
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!--
+  <div style="width:65%;float:left;" id="album" class='col-md-6 content-markdwon'>
+
+
+  {% for album in album_list %}
+
+  <div class="row">
+  <div style="border:solid 2px tomato;" class="thumbnail">
+  <div class="caption">
+  <h5>{{album.timestamp}}</h5>
+  </hr>
+  <h4><a href='{{ album.get_absolute_url}}'>{{ album.title }}</a>
+  <small>{{ album.timestamp | timesince}} 전에 작성</small>
+  </h4><br/>
+
+  <div style="font-size:15px;text-align:right;">
+  <a href="{{album.get_absolute_url}}#disqus_thread">0 Comment</a> | {{album.likes}} likes | {{album.hit}} hit
+  </div>
+
+
+  </div>
+
+  </div>
+  <hr/>
+  </div>
+  {% endfor %}
+
+  </div>
+-->
+
+<!--
+  <aside style="width:35%;float:left" class="col-md-4">
+
+
+  <div style="margin:20px;" class="input-group">
+  <input type="text" class="form-control" placeholder="찾고싶은 풍연앨범 글을 검색하세요.">
+  <span style=padding-left:10px; class="input-group-btn">
+  <button class="btn btn-default" type="button">검색</button>
+  </span>
+  </div>
+
+  <div style="height:50px;margin:10px;">
+  <a href="{% url "album:album_create" %}"><button style="height:50px;" type="button" class="btn btn-success col-md-12"><span style="font-weight:bold;">풍연앨범 글쓰기</span></button></a>
+  </div>
+
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px tomato;height:300px">
+
+
+  <h4 style="color:goldenrod;text-align:center;">조회수 TOP5</h4>
+  {% for hit in rank_hit %}
+  <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
+  {% endfor  %}
+  </div>
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px tomato;height:300px">
+  <h4 style="color:goldenrod;text-align:center">좋아요 TOP5</h4></hr>
+
+  {% for like in rank_like %}
+  <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
+  {% endfor  %}
+
+  </div>
+
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px tomato;min-height:300px">
+  <h4 style="color:goldenrod;text-align:center">최근에 올라온 글들</h4></hr>
+
+  {% for post in recent_post %}
+  <li style="list-style-type:none;padding:5px;"><a href="{{post.get_absolute_url}}">{{post.title}}</a> - <small>{{post.timestamp}}</small></li>
+  {% endfor  %}
+
+  </div>
+  </aside>
+-->
+{% endblock content %}
+
+
+

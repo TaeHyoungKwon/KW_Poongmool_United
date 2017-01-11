@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from taggit.managers import TaggableManager
+
 
 class Notice(models.Model):
     user = models.ForeignKey('auth.User')
@@ -9,7 +11,7 @@ class Notice(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
     hit = models.IntegerField(default=0)
-
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
@@ -21,6 +23,7 @@ class Notice(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
+
 
 
 

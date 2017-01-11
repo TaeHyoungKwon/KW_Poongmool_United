@@ -1,0 +1,32 @@
+{% extends "home/base.html"%}
+
+
+
+{% block content %}
+
+<div class="col-md-4">
+
+  <div>
+    <h5>-  글 수정, 삭제를 위해 '패스워드'를 꼭 기억해주세요.</h5>
+    <h5>-  앨범같은 경우, 대표 이미지를 반드시 넣어 주셔야 합니다.</h5>
+    <h5>-  기본 작성자는 '익명'으로 되어있습니다. 수정해서 사용해주세요.</h5>
+
+
+</div>
+
+</div>
+
+<div class="col-md-5">
+  <h1 style="padding-bottom:20px;">블로그 글을 작성하세요.</h1>
+  <form method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}   
+
+    {{ form.as_p }}
+
+
+<button style="font-weight:bold;" type="submit" class="btn btn-info btn-md">글 작성하기</button>
+  </form>
+</div>
+
+
+{% endblock content %}
+

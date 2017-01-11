@@ -19,12 +19,23 @@ from django.conf.urls import url,include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+import notice,bamboo
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^notice/', include('notice.urls',namespace='notice')),
+    url(r'^bamboo/', include('bamboo.urls',namespace='bamboo')),
+    url(r'^album/', include('album.urls',namespace='album')),
+    url(r'^blog/', include('blog.urls',namespace='blog')),
+
+
+
     url(r'^home/', include('home.urls',namespace='home')),
     url(r'^summernote/', include('django_summernote.urls')),
-
+    url(r'^notice/like-blog/$', notice.views.like_count_blog, name='like_count_blog'),
+    url(r'^bamboo/like-blog/$', bamboo.views.like_count_blog, name='like_count_blog'),
+   
+    url(r'^calendar/', include('happenings.urls', namespace='calendar')),
 
 ]
 

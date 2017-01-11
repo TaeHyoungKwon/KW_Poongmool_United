@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load thumbnail %}
 
 <!--DOCTYPE htm -->
 <html>
@@ -24,9 +25,20 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Add this css File in head tag-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet" media="all">
 
-    <link rel="stylesheet" href="{% static "css/freelancer.css"%}"/>
+
+
+    <link rel="stylesheet" href="{% static "css/freelancer.css" %}"/>
     <link rel="stylesheet" href="{% static "css/font-awesome.css"%}"/>
+    <link rel="stylesheet" href="{% static "css/base.css"%}"/>
+    <link rel="stylesheet" href="{% static "css/calendar.css"%}"/>
+
+
+
+
 
   </head>
 
@@ -39,27 +51,30 @@
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span> 메뉴  <i class="fa fa-bars"></i>
           </button>
-          <a class="navbar-brand" href="#page-top">KWPU : 광운대학교 풍물굿패 연합</a>
+          <a class="navbar-brand" href="{% url "home:home" %}">KWPU : 광운대학교 풍물굿패 연합</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li class="hidden">
-              <a href="#page-top"></a>
+              <a href="{% url "notice:notice_list"%}"></a>
             </li>
             <li class="page-scroll">
-              <a href="#notice">공지사항</a>
+              <a href="{% url "notice:notice_list" %}">공지사항</a>              
             </li>
             <li class="page-scroll">
-              <a href="#event">풍연행사</a>
+              <a href="{% url "calendar:list"%}">풍연행사</a>
             </li>
             <li class="page-scroll">
-              <a href="#album">풍연앨범</a>
+              <a href="{% url "album:album_list"%}">풍연앨범</a>
             </li>
             <li class="page-scroll">
-              <a href="#bamboo">대나무숲</a>
-            </li>
+              <a href="{% url "bamboo:bamboo_list" %}">대나무숲</a>
+              <li class="page-scroll">
+                <a href="{% url "blog:blog_list"%}">풍연블로그</a>
+
+              </li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -67,13 +82,13 @@
       <!-- /.container-fluid -->
     </div>
 
-    <div style="padding:60px;">
 
+    <div style="padding:60px;">
     </div>
 
 
-
     <div class="container">
+
       <div class="row">
 
         {% block content %}
@@ -87,56 +102,7 @@
     </div>
 
 
-    <div id="footer" style="height:150px;background-color:#292b34;">
-      <div style="background-color:#292b34;" class="container">
-        <center>
-          <div class="container">
-            <div style="background-color:#292b34;">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div style="padding-top:20px;" class="col-md-4">
-                      <h2 style="color:white;" class="title-footer">
-                        광운대학교 풍물굿패연합</h2>
-                    </div><!--end .col-md-4-->
-                    <div class="col-md-4 contact-email">
-                      <h2>
-                        <a href="http://kwpu.info">kwpu.info</a></h2>
-                      <h3 style="color:white;">
-                        © Copyright KWPU:광풍연2017</h3>
-                    </div><!--end .col-md-4 .contact-email-->
-                    <div class="col-md-4">
-                      <div class="row contact row-first">
-                        <div class="col-md-6">
-                          <a href="skype:nico.plyley?chat" class="skype"><i class="fa fa-skype"></i>nico.plyley</a>
-                        </div><!--end .col-md-6-->
-                        <div class="col-md-6">
-                          <a href="http://instagram.com/nicoplyley" class="instagram"><i class="fa fa-instagram"></i>@nicoplyley</a>
-                        </div><!--end .col-md-6-->
-                      </div><!--end .row .contact .row-first-->
-                      <div class="row contact">
-                        <div class="col-md-6">
-                          <a href="http://facebook.com/nicoplyley" class="facebook"><i class="fa fa-facebook"></i>@nicoplyley</a>
-                        </div><!--end .col-md-6-->
-                        <div class="col-md-6">
-                          <a href="http://twitter.com/nicoplyley" class="twitter"><i class="fa fa-twitter"></i>@nicoplyley</a>
-                        </div><!--end .col-md-6-->
-                      </div><!--end .row .contact-->
-                    </div><!--end .col-md-6-->
-                  </div><!--end .row-->
-                </div><!--end .col-md-12-->
-              </div><!--end .row-->
-            </div><!--end .well .well-sm .main-footer-->
-          </div><!--end .container-->
-        </center>
-      </div><!--end .container-->
-    </div><!--end #footer-->
 
-    <script src="{% static "js/base.js" %}"></script>
-
-    <script src="{% static "js/freelancer.js" %}"></script>
-
-    <!-- jQuery -->
     <script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -148,12 +114,18 @@
 
     <!-- Theme JavaScript -->
     <script src="{% static "js/freelancer.min.js" %}"></script>
+    <script src="{% static "js/base.js" %}"></script>
+    <script src="{% static "js/calendar.js" %}"></script>
+
+
     <script id="dsq-count-scr" src="//kwpu-disqus-com.disqus.com/count.js" async></script>
+
+
 
     <script>
 /* like counting */
 $(document).ready(function() {
-  $('.post-likes').click(function() {
+  $('.post-likes-notice').click(function() {
     var id;
     id = $(this).attr('data-post-id');
     $.get('/notice/like-blog/', {
@@ -167,7 +139,103 @@ $(document).ready(function() {
     </script>
 
 
+    <script>
+/* like counting */
+$(document).ready(function() {
+  $('.post-likes-bamboo').click(function() {
+    var id;
+    id = $(this).attr('data-post-id');
+    $.get('/bamboo/like-blog/', {
+      post_id: id
+    }, function(data) {
+      $('.like_count_blog').html(data);
+    });
+  });
+});
 
+    </script>
+
+    <script>
+/* like counting */
+$(document).ready(function() {
+  $('.post-likes-album').click(function() {
+    var id;
+    id = $(this).attr('data-post-id');
+    $.get('/album/like-blog/', {
+      post_id: id
+    }, function(data) {
+      $('.like_count_blog').html(data);
+    });
+  });
+});
+
+    </script>
+
+
+    <script>
+/* like counting */
+$(document).ready(function() {
+  $('.post-likes-blog').click(function() {
+    var id;
+    id = $(this).attr('data-post-id');
+    $.get('/blog/like-blog/', {
+      post_id: id
+    }, function(data) {
+      $('.like_count_blog').html(data);
+    });
+  });
+});
+
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+
+$(document).ready(function(){
+  $(".content-markdown").each(function(){
+    var content =   $(this).text()
+      console.log(content)
+      var markedContent = marked(content)
+      console.log(markedContent)
+      $(this).html(markedContent)
+
+  })
+  $(".content-markdown img").each(function(){
+    $(this).addClass("img-responsive") 
+
+  })
+  var titleItem =  $("#id_title");
+  $("#preview-title").text(titleItem.val())
+
+    var contentItem =  $("#id_content");
+  $("#preview-content").html(marked(contentItem.val()))
+
+    function setContent(value){
+      var markedContent = marked(value)
+        $("#preview-content").html(markedContent)
+        $("#preview-content img").each(function(){
+          $(this).addClass("img-responsive")
+        })
+
+
+    }
+  setContent(contentItem.val())
+
+
+})
+    </script>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=352279965137715";
+fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
   </body>
 

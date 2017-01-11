@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'sorl.thumbnail',
+    'taggit',
     'notice',
     'home',
     'django_summernote',
+    'bamboo',
+    'album',
+    'blog',
+    'happenings',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -67,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -108,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -138,9 +145,26 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
 
 
 SUMMERNOTE_CONFIG = {
+
         
         
-        'attachment_filesize_limit' : 10240 * 10240
+        'attachment_filesize_limit' : 10240 * 10240,
+
         
         }
+
+
+
+DATETIME_INPUT_FORMATS = [
+        
+        '%y-%m-%d %H:%M:%S',
+        ]
+
+
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (50, 50), 'crop': True},
+    },
+}
 

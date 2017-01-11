@@ -1,0 +1,32 @@
+{% extends "home/base.html"%}
+
+
+
+{% block content %}
+<div style="margin-top:200px;">
+  
+  <div class="col-md-4">
+
+  <div>
+    <h5>-  글 수정, 삭제를 위해 '패스워드'를 꼭 기억해주세요.</h5>
+    <h5>-  기본 패스워드는 '12345' 입니다.</h5>
+
+</div>
+
+</div>
+
+<div style="height:500px;" class="col-md-5">
+  <h2 style="padding-bottom:20px;">해당글의 비밀번호를 입력하세요.</h2>
+  <form method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}   
+    {% if password == False %}
+    <h3 style="color:red">Warning!! : Pasword가 틀렸습니다.</h3>
+    {% endif%}
+    {{form}}
+<button style="font-weight:bold;" type="submit" class="btn btn-success btn-md">비밀번호 제출</button>
+  </form>
+</div>
+
+</div>
+
+{% endblock content %}
+

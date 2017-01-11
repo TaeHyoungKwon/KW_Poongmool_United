@@ -1,0 +1,66 @@
+{% extends 'happenings/middle.html' %}
+{% load staticfiles i18n %}
+
+{% block content %}
+
+{% if cal_error %}
+{{ cal_error }}
+{% endif %}
+
+
+<div align="center" class="col-md-12">
+  <div class="container">
+    <div style="background-color:white;" class="row">
+      <h1>
+
+        {% if cal_category and cal_tag %}
+        {% blocktrans with c=cal_category t=cal_tag %}
+        in category <span id="cal-day-category">{{ c }}</span>
+        with tag <span id="cal-day-tag">{{ t }}</span>
+        {% endblocktrans %}
+        {% elif cal_category %}
+        {% blocktrans with c=cal_category t=cal_tag %}
+        with category <span id="cal-day-category">{{ c }}</span>
+        {% endblocktrans %}
+        {% elif cal_tag %}
+        {% blocktrans with c=cal_category t=cal_tag %}
+        with tag = <span id="cal-day-tag">{{ t }}</span>
+        {% endblocktrans %}
+        {% endif %}
+      </h1>
+
+      <h2>
+        <span id="cal-day-year">{{ year }}</span>
+        <span id="cal-day-mo">{{ month }}</span> 
+        <span id="cal-day-day">{{ day }}일 풍연 행사 리스트 입니다.</span>
+
+      </h2>
+
+      <h3>
+        <a id="cal-day-prev" class="cal-day" href="{{ request.path }}?cal_prev={{ prev }}">
+          {% trans "Prev Day" %}
+        </a> | 
+        <a id="cal-day-next" class="cal-day" href="{{ request.path }}?cal_next={{ next }}">
+          {% trans "Next Day" %}
+        </a>
+      </h3>
+      <ul class="day-event-list">
+        <table style="font-size:40px;">
+          <tr>
+            <th>행사명</th>
+          </tr>
+            {% for event in events %}
+
+          <tr>
+            <td> <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>  </td>
+
+          </tr>
+            {% endfor %}
+
+        </table>
+
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

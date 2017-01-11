@@ -1,0 +1,66 @@
+{% extends "home/base.html"%}
+
+
+{% block content %}
+
+
+
+<div class="page-header">
+  <h1 style="color:darkred">공지사항 <small>:풍연인을 위한 익명게시판 입니다.</small></h1>
+</div>
+
+<div style=width:65%;float:left;" id="notice" class='col-md-6 content-markdwon'>
+
+
+  {% for notice in notice_list %}
+
+  <div class="row">
+    <div style="border:solid 2px darkred;" class="thumbnail">
+      <div class="caption">
+        <h5>{{notice.timestamp}}</h5>
+        </hr>
+        <h4><a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a>
+          <small>{{ notice.timestamp | timesince}} 전에 작성</small>
+        </h4><br/>
+
+
+        <div style="font-size:15px;text-align:right;">
+          <a href="{{notice.get_absolute_url}}#disqus_thread">0 Comment</a> | {{notice.likes}} likes | {{notice.hit}} hit
+        </div>
+
+        <li class="tags">
+
+          {% for tag in notice.tags.all  %}
+          <a href="{% url "notice:tagged" slug=tag.slug  %}">{{tag.name}}</a>
+          {% endfor %}
+
+        </li>
+
+
+
+
+      </div>
+
+    </div>
+    <hr/>
+  </div>
+  {% endfor %}
+
+</div>
+
+
+<aside style="width:35%;float:left" class="col-md-4">
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;height:300px">
+    <h4 style="color:darkred;text-align:center;">전체 태그 리스트</h4>
+    {% for tag in tags %}
+
+    <li><a href="{% url "notice:tagged" tag.slug%}">{{tag}}</a></li>
+
+    {% endfor  %}
+  </div>
+</aside>
+
+</div>
+{% endblock content %}
+
+

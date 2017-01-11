@@ -1,18 +1,43 @@
 {% extends "home/base.html"%}
 
-{%block content %}
-<div id="notice" style="background-color:white;padding-bottom:30px;" class="col-md-10">
-  <div style="border:solid 2px;padding:20px;" class="row">
 
-    <h2>{{ instance.title }}<small style="padding:10px;">{{ instance.timestamp | timesince }} 전에 작성</small></h2>
+
+{%block content %}
+
+<div class="col-md-10">
+  <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
+    <li><a href=" {% url "home:home" %} ">메인</a></li>
+
+    <li><a href="{% url "notice:notice_list"%}">{{title}}</a></li>
+    <li><a href="{{instance.get_absolute_url}}">{{ instance.title }}</a></li>
+
+  </ol>
+</div>
+
+
+<div id="notice" style="padding-bottom:30px;" class="col-md-10">
+  <div style="background-color:white;border:solid darkred 2px;padding:20px;" class="row">
+
+    <h2 style="color:darkred;">{{ instance.title }}<small style="padding:10px;">{{ instance.timestamp | timesince }} 전에 작성</small></h2>
 
     <hr/><br/>
     {{ instance.message | safe }}<br/>
     <hr/><br/>
     <span style="font-size: 20px;">{{instance.user}} | <small>{{instance.timestamp}}</small></span>
 
+
+    <hr/><br/>
+        <li class="tags">
+          {% for tag in instance.tags.all  %}
+          <a href="{% url "notice:tagged" tag.slug %}">{{tag.name}}</a>
+          {% endfor%}
+        </li>
+<hr/><br/>
+
+
+
     <div style="text-align:center;">
-      <button style="font-size:30px;" class="likes post-likes" id="heart-icon" data-post-id="{{ instance.id }}">
+      <button style="font-size:30px;" class="likes post-likes-notice" id="heart-icon" data-post-id="{{ instance.id }}">
         <i class="heart-shaped fa fa-heart" style="display: line-block"></i>
         <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
       </button>

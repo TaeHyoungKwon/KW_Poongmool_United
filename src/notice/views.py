@@ -2,9 +2,16 @@ from django.shortcuts import render,get_object_or_404,redirect
 from .models import Notice
 from django.views.generic import ListView
 from django.http import HttpResponseRedirect,HttpResponse
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import NoticeForm
+from taggit.models import Tag
+from django.db.models import Q
 
+class TagMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(TagMixin, self).get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        return context
 
 
 def notice_create(request):
@@ -13,7 +20,6 @@ def notice_create(request):
     if form.is_valid():
         instance = form.save(commit=False)
         instance.user = request.user
-        print(form.cleaned_data.get("title"))
         instance.save()
 
     context = {
@@ -30,10 +36,31 @@ def notice_list(request):
     rank_hit = Notice.objects.all().order_by('-hit')[:5]
     rank_like = Notice.objects.all().order_by('-likes')[:5]
 
+
+    query = request.GET.get("q")
+    if query:
+        qs = qs.filter(
+                
+                Q(title__icontains=query)|
+                Q(message__icontains=query)
+                ).distinct()
+
+    paginator = Paginator(qs, 10) # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        contacts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
     context={
-            "notice_list":qs, 
+            "notice_list":contacts, 
             "rank_hit":rank_hit,
             "rank_like":rank_like,
+            "title":"공지사항",
     }
     return render(request,"notice/notice_list.html",context)
 
@@ -50,9 +77,12 @@ def notice_detail(request,id):
     instance.hit += 1
     instance.save()
 
+    title = "공지사항"
+
     context = {
             "instance" : instance,
             'liked':liked,
+            'title':"공지사항",
     }
     return render(request, "notice/notice_detail.html",context)
 
@@ -98,3 +128,13 @@ def like_count_blog(request):
     post.likes = likes
     post.save()
     return HttpResponse(likes, liked)
+
+class TagIndexView(TagMixin, ListView):
+    template_name = 'notice/notice_tag_list.html'
+    model = Notice
+    context_object_name = 'notice_list'
+
+    def get_queryset(self):
+        return Notice.objects.filter(tags__slug=self.kwargs.get('slug'))
+
+

@@ -1,0 +1,64 @@
+{% extends "home/base.html"%}
+
+
+{% block content %}
+
+
+
+<div class="page-header">
+  <h1 style="color:green">대나무숲 <small>:풍연인을 위한 익명게시판 입니다.</small></h1>
+</div>
+
+<div style=width:65%;float:left;" id="bamboo" class='col-md-6 content-markdwon'>
+
+
+  {% for bamboo in bamboo_list %}
+
+  <div class="row">
+    <div style="border:solid 2px green;" class="thumbnail">
+      <div class="caption">
+        <h5>{{bamboo.timestamp}}</h5>
+        </hr>
+        <h4><a href='{{ bamboo.get_absolute_url}}'>{{ bamboo.title }}</a>
+          <small>{{ bamboo.timestamp | timesince}} 전에 작성</small>
+        </h4><br/>
+
+
+        <div style="font-size:15px;text-align:right;">
+          <a href="{{bamboo.get_absolute_url}}#disqus_thread">0 Comment</a> | {{bamboo.likes}} likes | {{bamboo.hit}} hit
+        </div>
+
+        <li class="tags">
+
+          {% for tag in bamboo.tags1.all  %}
+          <a href="{% url "bamboo:tagged" slug=tag.slug  %}">{{tag.name}}</a>
+          {% endfor %}
+
+        </li>
+
+
+
+
+      </div>
+
+    </div>
+    <hr/>
+  </div>
+  {% endfor %}
+
+</div>
+
+
+<aside style="width:35%;float:left" class="col-md-4">
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
+    <h4 style="color:green;text-align:center;">전체  태그 리스트</h4>
+    {% for tag in tags %}
+    <li><a href="{% url "bamboo:tagged" tag.slug%}">{{tag}}</a></li>
+    {% endfor  %}
+  </div>
+</aside>
+
+</div>
+{% endblock content %}
+
+

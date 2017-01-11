@@ -1,0 +1,147 @@
+{% extends "home/base.html"%}
+
+
+{% block content %}
+
+<div>
+  <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
+    <li><a href=" {% url "home:home" %}">메인</a></li>
+
+    <li><a href="{% url "bamboo:bamboo_list"%}">{{title}}</a></li>
+    {% block bamboo_detail_link %}
+    {% endblock %}
+
+  </ol>
+</div>
+
+
+
+<div class="page-header">
+  <h1 style="color:green">대나무숲 <small>:풍연인을 위한 익명게시판 입니다.</small></h1>
+</div>
+
+{% if bamboo_list.has_other_pages %}
+<div style="text-align:center">  
+  <ul class="pagination">
+    {% if bamboo_list.has_previous %}
+      <li><a href="?page={{ bamboo_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in bamboo_list.paginator.page_range %}
+      {% if bamboo_list.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if bamboo_list.has_next %}
+      <li><a href="?page={{ bamboo_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</div>
+
+{% endif %}
+
+
+
+<div style=width:65%;float:left;" id="bamboo" class='col-md-6 content-markdwon'>
+
+  {% for bamboo in bamboo_list %}
+
+  <div class="row">
+    <div style="border:solid 2px green;" class="thumbnail">
+      <div class="caption">
+        <h5>{{bamboo.timestamp}}</h5>
+        </hr>
+        <h4><a href='{{ bamboo.get_absolute_url}}'>{{ bamboo.title }}</a>
+          <small>{{ bamboo.timestamp | timesince}} 전에 작성</small>
+
+        </h4>  
+
+
+        <div style="font-size:15px;text-align:right;">
+          <a href="{{bamboo.get_absolute_url}}#disqus_thread">0 Comment</a> | {{bamboo.likes}} likes | {{bamboo.hit}} hit
+        </div><hr> 
+       
+
+        <li class="tags">
+
+          {% for tag in bamboo.tags1.all  %}
+          <a href="{% url "bamboo:tagged" slug=tag.slug  %}">{{tag.name}}</a>
+          {% endfor %}
+ 
+        </li>
+
+
+
+      </div>
+
+    </div>
+    <hr/>
+  </div>
+  {% endfor %}
+
+</div>
+
+<aside style="width:35%;float:left" class="col-md-4">
+  <form method="GET" action="">      
+
+    <div style="margin:10px;" class="input-group">
+
+      <input type="text" name="q" class="form-control" placeholder="찾고싶은 대나무숲 글을 검색하세요." value='{{request.GET.q}}'>
+      <span style=padding-left:10px; class="input-group-btn">
+        <button class="btn btn-default" type="submit">검색</button>
+      </span>
+
+    </div>
+  </form>  
+  
+
+  <div style="height:50px;margin:10px;">
+    <a href="{% url "bamboo:bamboo_create" %}"><button style="height:50px;" type="button" class="btn btn-success col-md-12"><span style="font-weight:bold;">대나무숲 글쓰기</span></button></a>
+  </div>
+
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
+
+
+    <h4 style="color:goldenrod;text-align:center;">조회수 TOP5</h4>
+    {% for hit in rank_hit %}
+    <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
+    {% endfor  %}
+  </div>
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
+    <h4 style="color:goldenrod;text-align:center">좋아요 TOP5</h4></hr>
+
+    {% for like in rank_like %}
+    <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
+    {% endfor  %}
+
+  </div>
+
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;min-height:300px">
+    <h4 style="color:goldenrod;text-align:center">최근에 올라온 글들</h4></hr>
+
+    {% for post in recent_post %}
+    <li style="list-style-type:none;padding:5px;"><a href="{{post.get_absolute_url}}">{{post.title}}</a> - <small>{{post.timestamp}}</small></li>
+    {% endfor  %}
+
+  </div>
+</aside>
+
+
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+

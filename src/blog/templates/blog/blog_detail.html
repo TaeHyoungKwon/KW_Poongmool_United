@@ -1,0 +1,87 @@
+{% extends "home/base.html"%}
+
+
+
+{%block content %}
+
+<div class="col-md-10">
+  <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
+    <li><a href=" {% url "home:home" %} ">메인</a></li>
+
+    <li><a href="{% url "blog:blog_list"%}">{{title}}</a></li>
+    <li><a href="{{instance.get_absolute_url}}">{{ instance.title }}</a></li>
+
+  </ol>
+</div>
+
+
+<div id="blog" style="padding-bottom:30px;" class="col-md-10">
+  <div style="background-color:white;border:solid 2px skyblue;padding:20px" class="row">
+
+    <h2 style="color:skyblue">{{ instance.title }} | {{instance.name}}
+      <small style="padding:10px;">{{ instance.timestamp | timesince }} 전에 작성</small> 
+      <a href="{{instance.get_check_delete_url}}"><button style="float:right;font-weight:bold;margin-left:10px;" type="submit" class="btn btn-info btn-md">삭제</button></a>
+      <a href="{{instance.get_check_url}}"> <button style="float:right;font-weight:bold;" type="submit" class="btn btn-info btn-md">수정</button></a>
+    </h2>
+
+
+
+    <hr/><br/>
+
+    <div>{{ instance.message | safe }}</div><br/>
+
+    <hr/><br/>
+    <span style="font-size: 20px;"><small>{{instance.timestamp}}</small></span>
+
+    <hr/><br/>
+    <li class="tags">
+      {% for tag in instance.tags.all  %}
+      <a href="{% url "blog:tagged" tag.slug %}">{{tag.name}}</a>
+      {% endfor%}
+    </li>
+    <hr/><br/>
+
+
+
+    <div style="text-align:center;">
+      <button style="font-size:30px;" class="likes post-likes-blog" id="heart-icon" data-post-id="{{ instance.id }}">
+        <i class="heart-shaped fa fa-heart" style="display: line-block"></i>
+        <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
+      </button>
+    </div>
+    <hr/><br/>
+    <div id="disqus_thread"></div>
+  </div>
+
+
+  <script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  /*
+     var disqus_config = function () {
+     this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+     };
+   */
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//kwpu-disqus-com.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+
+
+
+
+{% endblock content %}
+
+
+
+

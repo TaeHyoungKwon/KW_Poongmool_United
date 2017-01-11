@@ -1,52 +1,112 @@
 {% extends "home/base.html"%}
 
+
 {% block content %}
 
-<div style="width:65%;float:left;" id="notice" class='col-md-8'>
+<div>
+  <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
+    <li><a href=" {% url "home:home" %} ">메인</a></li>
+
+    <li><a href="{% url "notice:notice_list"%}">{{title}}</a></li>
+    {% block notice_detail_link %}
+    {% endblock %}
+  </ol>
+</div>
+
+
+
+<div class="page-header">
+  <h1 style="color:darkred">공지사항 <small>:풍연과 관련된 공지사항을 확인하세요.</small></h1>
+</div>
+
+
+{% if notice_list.has_other_pages %}
+<div style="text-align:center">  
+  <ul class="pagination">
+    {% if notice_list.has_previous %}
+    <li><a href="?page={{ notice_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in notice_list.paginator.page_range %}
+    {% if notice_list.number == i %}
+    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if notice_list.has_next %}
+    <li><a href="?page={{ notice_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</div>
+
+{% endif %}
+
+
+
+
+
+<div style="width:65%;float:left;" id="notice" class='col-md-8 active'>
 
 
   {% for notice in notice_list %}
 
   <div  class="row">
-    <div style="border:solid 2px;" class="thumbnail">
+    <div style="border:solid 2px darkred;" class="thumbnail">
       <div class="caption">
-        <h5>{{notice.timestamp}}</h5>
+        <h5>{{notice.timestamp}} / {{notice.user}}</h5>
         </hr>
-        <h3><a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a>
-          <small>{{ notice.timestamp | timesince  }}</small>
-        </h3><br/>
+        <h4><a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a>
+          <small>{{ notice.timestamp | timesince}} 전에 작성</small>
+        </h4><br/>
         <!--   {{ notice.message|linebreaks|truncatechars:80 }}<br/><hr/>-->
-
-
-        <div style="font-size:15px;overflow:hidden;display:inline;width:50%">
+        <div style="font-size:15px;text-align:right;">
           <a  href="{{notice.get_absolute_url}}#disqus_thread">0 Comment</a> | {{notice.likes}} likes | {{notice.hit}} hit
-        </div>
-        <div style="float:right;overflow:hidden;display:inline;width:50%">
+        </div><hr>
+        <li class="tags">
 
-        </div>
+          {% for tag in notice.tags.all  %}
+          <a href="{% url "notice:tagged" slug=tag.slug  %}">{{tag.name}}</a>
+          {% endfor %}
 
+        </li>
       </div>
 
     </div>
     <hr/>
   </div>
+
   {% endfor %}
 
 </div>
 
 <aside style="width:35%;float:left" class="col-md-4">
+  <form method="GET" action="">      
 
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px;height:300px">
+    <div style="margin:10px;" class="input-group">
+
+      <input type="text" name="q" class="form-control" placeholder="찾고싶은 공지사항을 검색하세요." value='{{request.GET.q}}'>
+      <span style=padding-left:10px; class="input-group-btn">
+        <button class="btn btn-default" type="submit">검색</button>
+      </span>
+
+    </div>
+  </form>
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;height:300px">
 
 
-    <h3 style="text-align:center;">조회수 TOP5</h3>
+    <h4 style="color:darkred;text-align:center;">조회수 TOP5</h5>
     {% for hit in rank_hit %}
     <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}}</li>
     {% endfor  %}
   </div>
 
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px;height:300px">
-    <h3 style="text-align:center">좋아요 TOP5</h3>
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;height:300px">
+    <h4 style="color:darkred;text-align:center">좋아요 TOP5</h4>
 
     {% for like in rank_like %}
     <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}}</li>
@@ -55,6 +115,8 @@
   </div>
 
 </aside>
+
+
 
 
 </div>
