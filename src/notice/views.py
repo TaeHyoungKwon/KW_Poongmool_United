@@ -1,32 +1,13 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from .models import Notice
-from django.views.generic import ListView
-from django.http import HttpResponseRedirect,HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import NoticeForm
-from taggit.models import Tag
 from django.db.models import Q
+from django.http import HttpResponseRedirect,HttpResponse
+from django.shortcuts import render,get_object_or_404,redirect
+from django.views.generic import ListView
 
-class TagMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(TagMixin, self).get_context_data(**kwargs)
-        context['tags'] = Tag.objects.all()
-        return context
+from .models import Notice
 
+from taggit.models import Tag
 
-def notice_create(request):
-    form = NoticeForm(request.POST or None)
-
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-
-    context = {
-            "form":form,
-            
-            }
-    return render(request,"notice/notice_form.html",context)
 
 
 def notice_list(request):
@@ -35,7 +16,6 @@ def notice_list(request):
 
     rank_hit = Notice.objects.all().order_by('-hit')[:5]
     rank_like = Notice.objects.all().order_by('-likes')[:5]
-
 
     query = request.GET.get("q")
     if query:
@@ -65,6 +45,7 @@ def notice_list(request):
     return render(request,"notice/notice_list.html",context)
 
 
+
 def notice_detail(request,id):
     instance = get_object_or_404(Notice, id=id) 
     liked = False
@@ -88,32 +69,11 @@ def notice_detail(request,id):
 
 
 
-def notice_update(request, id=None):
-    instance = get_object_or_404(Notice, id=id)
-    form = NoticeForm(request.POST or None, instance=instance)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        return HttpResponseRedirect(instance.get_absolute_url())
-
-    context ={
-            "title":instance.title,
-            "instance":instance,
-            "form":form,
-    }
-    return render(request, "notice/notice_form.html",context)
-
-
-def notice_delete(request, id=None):
-    instance = get_object_or_404(Notice, id=id)
-    instance.delete()
-    return redirect("notice:notice_list")
-
-
 def like_count_blog(request):
     liked = False
     if request.method == 'GET':
         post_id = request.GET['post_id']
+        print(post_id)
         post = Notice.objects.get(id=int(post_id))
         if request.session.get('has_liked_'+post_id, liked):
             if post.likes > 0:
@@ -128,6 +88,17 @@ def like_count_blog(request):
     post.likes = likes
     post.save()
     return HttpResponse(likes, liked)
+
+
+
+
+
+class TagMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(TagMixin, self).get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        return context
+
 
 class TagIndexView(TagMixin, ListView):
     template_name = 'notice/notice_tag_list.html'

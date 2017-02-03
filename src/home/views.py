@@ -31,9 +31,6 @@ def list_all(request):
     blog_rank_hit = Blog.objects.all().order_by('-hit')[:5]
     blog_rank_like = Blog.objects.all().order_by('-likes')[:5]
 
-
-
-
     context={
             "notice_list":notice_qs, 
             "notice_rank_hit":notice_rank_hit,
@@ -53,4 +50,9 @@ def list_all(request):
     }
     return render(request,"home/home.html",context)
 
+def rule(request):
+    return render(request, 'home/rule.html',{})
 
+
+def tree(request):
+    return render(request, 'home/tree.html',{})

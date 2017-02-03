@@ -24,6 +24,7 @@ def album_create(request):
         instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
+        form.save_m2m()
         return HttpResponseRedirect(instance.get_absolute_url())
 
     context = {

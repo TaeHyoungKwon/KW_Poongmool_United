@@ -17,7 +17,6 @@ class Notice(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        #return "/notice/%s" % (self.id)
         return reverse("notice:notice_detail",kwargs={"id": self.id})
 
     @property

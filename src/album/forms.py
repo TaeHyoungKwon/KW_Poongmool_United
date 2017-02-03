@@ -14,6 +14,7 @@ class AlbumForm(forms.ModelForm):
                 "password",
                 'message',
                 'photo',
+                'tags',
                 
                 
                 ]
@@ -26,9 +27,13 @@ class AlbumForm(forms.ModelForm):
                 "title":('제목'),
                 "password":('패스워드'),
                 'photo':('대표 이미지'),
+                'tags':('태그'),
 
-                
                 }
+        help_texts ={
+                "tags":(' "," 혹은 "띄어쓰기"로 구분해주세요 ex)tags,ta,g or tags ta g'), 
+                }
+
 
 class AlbumCheckForm(forms.Form):
     password = forms.CharField(max_length=10)

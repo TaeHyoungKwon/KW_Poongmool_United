@@ -22,33 +22,41 @@
       <small style="padding:10px;">{{ instance.timestamp | timesince }} 전에 작성</small> 
       <a href="{{instance.get_check_delete_url}}"><button style="float:right;font-weight:bold;margin-left:10px;" type="submit" class="btn btn-danger btn-md">삭제</button></a>
       <a href="{{instance.get_check_url}}"> <button style="float:right;font-weight:bold;" type="submit" class="btn btn-danger btn-md">수정</button></a>
-</h2>
+    </h2>
 
 
 
     <hr/><br/>
 
     <div>{{ instance.message | safe }}</div><br/>
-   
+
     <hr/><br/>
     <span style="font-size: 20px;"><small>{{instance.timestamp}}</small></span>
 
 
     <hr/><br/>
-        <li class="tags">
-          {% for tag in instance.tags.all  %}
-          <a href="{% url "album:tagged" tag.slug%}">{{tag.name}}</a>
-          {% endfor%}
-        </li>
-<hr/><br/>
+    <li class="tags">
+      {% for tag in instance.tags.all  %}
+      <a href="{% url "album:tagged" tag.slug%}">{{tag.name}}</a>
+      {% endfor%}
+    </li>
+    <hr/><br/>
 
-
-    <div style="text-align:center;">
-      <button style="font-size:30px;" class="likes post-likes-album" id="heart-icon" data-post-id="{{ instance.id }}">
+    <div style="text-align:center" class="heart-particle-box">
+      <button class="likes post-likes-album" id="heart-icon" data-album-id="{{instance.id}}">
+        {% if liked %}
         <i class="heart-shaped fa fa-heart" style="display: line-block"></i>
-        <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
+        <i class="heart-shaped fa fa-heart-o" style="display: none"></i>
+        {% else %}
+        <i class="heart-shaped fa fa-heart" style="display: none"></i>
+        <i class="heart-shaped fa fa-heart-o" style="display: line-block"></i>
+        {% endif %}
+
       </button>
+      <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
+
     </div>
+
     <hr/><br/>
     <div id="disqus_thread"></div>
 

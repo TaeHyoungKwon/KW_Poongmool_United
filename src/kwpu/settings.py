@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'album',
     'blog',
     'happenings',
+    'taggit_templatetags2',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -167,4 +168,7 @@ THUMBNAIL_ALIASES = {
         'avatar': {'size': (50, 50), 'crop': True},
     },
 }
+TAGGIT_TAGCLOUD_MIN=1.0
+TAGGIT_TAGCLOUD_MAX=6.0
 
+LOGIN_REDIRECT_URL = '/home/'

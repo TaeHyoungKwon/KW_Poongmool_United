@@ -31,6 +31,10 @@ class BlogForm(forms.ModelForm):
 
                 
                 }
+        help_texts ={
+                "tags":(' "," 혹은 "띄어쓰기"로 구분해주세요 ex)tags,ta,g or tags ta g'), 
+                }
+
 
 class BlogCheckForm(forms.Form):
     password = forms.CharField(max_length=10)

@@ -1,5 +1,7 @@
 {% extends "home/base.html"%}
 
+{% load taggit_templatetags2_tags %}
+
 
 {% block content %}
 
@@ -24,21 +26,21 @@
 <div style="text-align:center">  
   <ul class="pagination">
     {% if bamboo_list.has_previous %}
-      <li><a href="?page={{ bamboo_list.previous_page_number }}">&laquo;</a></li>
+    <li><a href="?page={{ bamboo_list.previous_page_number }}">&laquo;</a></li>
     {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
+    <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
     {% for i in bamboo_list.paginator.page_range %}
-      {% if bamboo_list.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
+    {% if bamboo_list.number == i %}
+    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
     {% endfor %}
     {% if bamboo_list.has_next %}
-      <li><a href="?page={{ bamboo_list.next_page_number }}">&raquo;</a></li>
+    <li><a href="?page={{ bamboo_list.next_page_number }}">&raquo;</a></li>
     {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+    <li class="disabled"><span>&raquo;</span></li>
     {% endif %}
   </ul>
 </div>
@@ -65,14 +67,14 @@
         <div style="font-size:15px;text-align:right;">
           <a href="{{bamboo.get_absolute_url}}#disqus_thread">0 Comment</a> | {{bamboo.likes}} likes | {{bamboo.hit}} hit
         </div><hr> 
-       
+
 
         <li class="tags">
 
-          {% for tag in bamboo.tags1.all  %}
+          {% for tag in bamboo.tags.all  %}
           <a href="{% url "bamboo:tagged" slug=tag.slug  %}">{{tag.name}}</a>
           {% endfor %}
- 
+
         </li>
 
 
@@ -98,24 +100,36 @@
 
     </div>
   </form>  
-  
+
 
   <div style="height:50px;margin:10px;">
     <a href="{% url "bamboo:bamboo_create" %}"><button style="height:50px;" type="button" class="btn btn-success col-md-12"><span style="font-weight:bold;">대나무숲 글쓰기</span></button></a>
+  </div>
+
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;min-height:100px">
+
+
+    <h4 style="color:green;text-align:center;">태그 클라우드</h4>
+
+    {% get_tagcloud as tags for 'bamboo.Bamboo' %}
+    {% for tag in tags %}
+    <font size={{tag.weight|floatformat:0}}><a href="{% url "bamboo:tagged" tag.slug %}">{{tag}}</a></font>
+    {% endfor %}
+
   </div>
 
 
   <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
 
 
-    <h4 style="color:goldenrod;text-align:center;">조회수 TOP5</h4>
+    <h4 style="color:green;text-align:center;">조회수 TOP5</h4>
     {% for hit in rank_hit %}
     <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
     {% endfor  %}
   </div>
 
   <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
-    <h4 style="color:goldenrod;text-align:center">좋아요 TOP5</h4></hr>
+    <h4 style="color:green;text-align:center">좋아요 TOP5</h4></hr>
 
     {% for like in rank_like %}
     <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
@@ -125,11 +139,11 @@
 
 
   <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;min-height:300px">
-    <h4 style="color:goldenrod;text-align:center">최근에 올라온 글들</h4></hr>
+    <h4 style="color:green;text-align:center">최근에 올라온 글들</h4></hr>
 
-    {% for post in recent_post %}
-    <li style="list-style-type:none;padding:5px;"><a href="{{post.get_absolute_url}}">{{post.title}}</a> - <small>{{post.timestamp}}</small></li>
-    {% endfor  %}
+        {% for post in recent_post %}
+        <li style="list-style-type:none;padding:5px;"><a href="{{post.get_absolute_url}}">{{post.title}}</a> - <small>{{post.timestamp}}</small></li>
+        {% endfor  %}
 
   </div>
 </aside>

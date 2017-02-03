@@ -18,7 +18,7 @@ from django.conf import settings
 from django.conf.urls import url,include
 from django.conf.urls.static import static
 from django.contrib import admin
-
+from django.shortcuts import redirect
 import notice,bamboo
 
 urlpatterns = [
@@ -34,8 +34,10 @@ urlpatterns = [
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^notice/like-blog/$', notice.views.like_count_blog, name='like_count_blog'),
     url(r'^bamboo/like-blog/$', bamboo.views.like_count_blog, name='like_count_blog'),
-   
+  
     url(r'^calendar/', include('happenings.urls', namespace='calendar')),
+
+    url(r'^$' , lambda r: redirect('home:home')),
 
 ]
 

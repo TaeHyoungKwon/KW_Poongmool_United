@@ -118,6 +118,31 @@ def bamboo_delete(request, id=None):
     return redirect("bamboo:bamboo_list")
 
 
+
+def like_count_blog(request):
+    liked = False
+    if request.method == 'GET':
+        post_id = request.GET['post_id']
+        print(post_id)
+        post = Bamboo.objects.get(id=int(post_id))
+        if request.session.get('has_liked_'+post_id, liked):
+            print("unlike")
+            if post.likes > 0:
+                likes = post.likes - 1
+                try:
+                    del request.session['has_liked_'+post_id]
+                except KeyError:
+                    print("keyerror")
+        else:
+            print("like")
+            request.session['has_liked_'+post_id] = True
+            likes = post.likes + 1
+    post.likes = likes
+    post.save()
+    return HttpResponse(likes, liked)
+
+
+'''
 def like_count_blog(request):
     liked = False
     if request.method == 'GET':
@@ -136,7 +161,7 @@ def like_count_blog(request):
     post.likes = likes
     post.save()
     return HttpResponse(likes, liked)
-
+'''
 
 def bamboo_check(request,id=None):
 
@@ -188,7 +213,7 @@ class TagIndexView(TagMixin, ListView):
     context_object_name = 'bamboo_list'
 
     def get_queryset(self):
-        return Bamboo.objects.filter(tags1__slug=self.kwargs.get('slug'))
+        return Bamboo.objects.filter(tags__slug=self.kwargs.get('slug'))
 
 
 

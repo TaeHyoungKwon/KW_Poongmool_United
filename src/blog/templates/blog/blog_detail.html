@@ -42,14 +42,22 @@
     <hr/><br/>
 
 
+<div style="text-align:center" class="heart-particle-box">
+     <button class="likes post-likes-blogs" id="heart-icon" data-blogs-id="{{instance.id}}">
+      {% if liked %}
+      <i class="heart-shaped fa fa-heart" style="display: line-block"></i>
+      <i class="heart-shaped fa fa-heart-o" style="display: none"></i>
+      {% else %}
+      <i class="heart-shaped fa fa-heart" style="display: none"></i>
+      <i class="heart-shaped fa fa-heart-o" style="display: line-block"></i>
+      {% endif %}
+      
+    </button>
+      <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
 
-    <div style="text-align:center;">
-      <button style="font-size:30px;" class="likes post-likes-blog" id="heart-icon" data-post-id="{{ instance.id }}">
-        <i class="heart-shaped fa fa-heart" style="display: line-block"></i>
-        <p class="like_count_blog" id="heart-counter">좋아요<span style="font-size:20px;">{{ instance.likes }}</span></p>
-      </button>
-    </div>
-    <hr/><br/>
+</div>
+<hr/><br/>
+
     <div id="disqus_thread"></div>
   </div>
 

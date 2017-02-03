@@ -1,11 +1,10 @@
 {% extends "home/base.html" %}
 {% load staticfiles %}
 
-
 {% block content %}
 {% load thumbnail %}
 
-<div id="bootstrap-touch-slider" class="carousel bs-slider slide  control-round indicators-line" data-ride="carousel" data-pause="hover" data-interval="5000" >
+<div style="margin:50px;" id="bootstrap-touch-slider" class="carousel bs-slider slide  control-round indicators-line" data-ride="carousel" data-pause="hover" data-interval="5000" >
 
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -31,8 +30,8 @@
             <h1 data-animation="animated zoomInRight">광운대학교 풍물굿패 연합 </h1>
             <p style="font-weight:bold;" data-animation="animated fadeInLeft">광풍연의 공지사항과 연간 행사를 확인하세요.</p>
 
-            <a href="http://bootstrapthemes.co/" target="_blank" class="btn btn-default" data-animation="animated fadeInLeft">공지사항 보기</a>
-            <a href="http://bootstrapthemes.co/" target="_blank"  class="btn btn-primary" data-animation="animated fadeInRight">풍연행사 보기</a>
+            <a href="{% url "notice:notice_list" %}" class="btn btn-default" data-animation="animated fadeInLeft">공지사항 보기</a>
+            <a href="{% url "calendar:list" %}" class="btn btn-primary" data-animation="animated fadeInRight">풍연행사 보기</a>
 
           </div>
         </div>
@@ -50,8 +49,8 @@
       <div class="slide-text slide_style_center">
         <h1 data-animation="animated flipInX">광풍연 소개</h1>
         <p data-animation="animated lightSpeedIn">광풍연의 회칙, 상치배를 소개 합니다.</p>
-        <a href="http://bootstrapthemes.co/" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">회칙 보기</a>
-        <a href="http://bootstrapthemes.co/" target="_blank"  class="btn btn-primary" data-animation="animated fadeInDown">상치배 계보</a>
+        <a href="{% url "home:rule" %}" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">회칙 보기</a>
+        <a href="{% url "home:tree" %}" target="_blank"  class="btn btn-primary" data-animation="animated fadeInDown">상치배 계보</a>
       </div>
     </div>
     <!-- End of Slide -->
@@ -66,8 +65,8 @@
       <div class="slide-text slide_style_right">
         <h1 data-animation="animated zoomInLeft">광풍연 소통 공간</h1>
         <p data-animation="animated fadeInRight">광풍연 전용 소통 공간 입니다.</p>
-        <a href="http://bootstrapthemes.co/" target="_blank" class="btn btn-default" data-animation="animated fadeInLeft">대나무숲 보기</a>
-        <a href="http://bootstrapthemes.co/" target="_blank" class="btn btn-primary" data-animation="animated fadeInRight">풍연앨범 보기</a>
+        <a href="{% url "bamboo:bamboo_list"%}" class="btn btn-default" data-animation="animated fadeInLeft">대나무숲 보기</a>
+        <a href="{% url "album:album_list"%}" class="btn btn-primary" data-animation="animated fadeInRight">풍연앨범 보기</a>
       </div>
     </div>
     <!-- End of Slide -->
@@ -88,6 +87,8 @@
   </a>
 
 </div> <!-- End  bootstrap-touch-slider Slider -->
+
+    </br><hr class="home">
 
 
 <div style=padding-bottom:20px; class="col-xs-12">            
@@ -260,7 +261,7 @@
         <tbody>
           {% for hit in blog_rank_hit %}
           <tr>
-            <td> <a style="color:green;"  href="{% url "blog:blog_detail" hit.id %}">{{hit.title | truncatechars:30}} </a> </td>
+            <td> <a style="color:blue;"  href="{% url "blog:blog_detail" hit.id %}">{{hit.title | truncatechars:30}} </a> </td>
             <td>{{hit.hit}}</td>
           </tr>
           {% endfor %}
@@ -285,7 +286,7 @@
         <tbody>
           {% for like in blog_rank_like %}
           <tr>
-            <td> <a style="color:green;"  href="{% url  "blog:blog_detail" like.id %}">{{like.title | truncatechars:30}} </a> </td>
+            <td> <a style="color:blue;"  href="{% url  "blog:blog_detail" like.id %}">{{like.title | truncatechars:30}} </a> </td>
             <td>{{like.likes}}</td>
           </tr>
           {% endfor %}
@@ -307,7 +308,7 @@
         <tbody>
           {% for blog in blog_list %}
           <tr>
-            <td> <a  style="color:green;" href="{% url "blog:blog_detail" blog.id %}">{{blog.title | truncatechars:30}} </a> </td>
+            <td> <a  style="color:blue;" href="{% url "blog:blog_detail" blog.id %}">{{blog.title | truncatechars:30}} </a> </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -390,10 +391,7 @@
 
     </br><hr class="home">
 
-
-
-
-    {% endblock content %}
+   {% endblock content %}
 
 
 

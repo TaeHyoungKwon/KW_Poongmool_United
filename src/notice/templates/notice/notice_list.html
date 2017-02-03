@@ -1,8 +1,10 @@
 {% extends "home/base.html"%}
-
+{% load taggit_templatetags2_tags %}
 
 {% block content %}
 
+
+<!--breadcrumb -->
 <div>
   <ol style = "margin-top:10px;background-color:#3c3d41" class="breadcrumb">
     <li><a href=" {% url "home:home" %} ">메인</a></li>
@@ -14,12 +16,13 @@
 </div>
 
 
-
+<!--pageheader -->
 <div class="page-header">
   <h1 style="color:darkred">공지사항 <small>:풍연과 관련된 공지사항을 확인하세요.</small></h1>
 </div>
 
 
+<!--Pagination -->
 {% if notice_list.has_other_pages %}
 <div style="text-align:center">  
   <ul class="pagination">
@@ -42,13 +45,10 @@
     {% endif %}
   </ul>
 </div>
-
 {% endif %}
 
 
-
-
-
+<!--notice_list main -->
 <div style="width:65%;float:left;" id="notice" class='col-md-8 active'>
 
 
@@ -59,13 +59,15 @@
       <div class="caption">
         <h5>{{notice.timestamp}} / {{notice.user}}</h5>
         </hr>
+
         <h4><a href='{{ notice.get_absolute_url}}'>{{ notice.title }}</a>
           <small>{{ notice.timestamp | timesince}} 전에 작성</small>
         </h4><br/>
-        <!--   {{ notice.message|linebreaks|truncatechars:80 }}<br/><hr/>-->
+
         <div style="font-size:15px;text-align:right;">
           <a  href="{{notice.get_absolute_url}}#disqus_thread">0 Comment</a> | {{notice.likes}} likes | {{notice.hit}} hit
         </div><hr>
+
         <li class="tags">
 
           {% for tag in notice.tags.all  %}
@@ -83,37 +85,47 @@
 
 </div>
 
+
+<!--사이드바 -->
 <aside style="width:35%;float:left" class="col-md-4">
   <form method="GET" action="">      
 
     <div style="margin:10px;" class="input-group">
-
       <input type="text" name="q" class="form-control" placeholder="찾고싶은 공지사항을 검색하세요." value='{{request.GET.q}}'>
+
       <span style=padding-left:10px; class="input-group-btn">
         <button class="btn btn-default" type="submit">검색</button>
       </span>
-
     </div>
+
   </form>
 
+  <!--태그클라우드, 좋아요, 조회수-->
+  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;min-height:100px">
+    <h4 style="color:darkred;text-align:center;">태그 클라우드</h5>
+    {% get_tagcloud as tags for 'notice.Notice' %}
+    {% for tag in tags %}
+    <font size={{tag.weight|floatformat:0}}><a href="{% url "notice:tagged" tag.slug %}">{{tag}}</a></font>
+    {% endfor %}
+  </div>
+
+
+  <!-- 조회수 -->
   <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;height:300px">
-
-
     <h4 style="color:darkred;text-align:center;">조회수 TOP5</h5>
     {% for hit in rank_hit %}
     <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}}</li>
     {% endfor  %}
   </div>
 
+
+  <!-- 좋아요 수 -->
   <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px darkred;height:300px">
     <h4 style="color:darkred;text-align:center">좋아요 TOP5</h4>
-
     {% for like in rank_like %}
     <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}}</li>
     {% endfor  %}
-
   </div>
-
 </aside>
 
 

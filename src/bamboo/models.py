@@ -11,7 +11,7 @@ class Bamboo(models.Model):
     likes = models.PositiveIntegerField(default=0)
     hit = models.IntegerField(default=0)
     password = models.CharField(max_length=10)
-    tags1 = TaggableManager()
+    tags = TaggableManager()
 
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Bamboo(models.Model):
         return reverse("bamboo:bamboo_delete",kwargs={"id":self.id})
 
     def get_tag_list_url(self):
-        return reverse("bamboo:tagged",kwargs={"slug":self.tags1})
+        return reverse("bamboo:tagged",kwargs={"slug":self.tags})
 
     @property
     def total_likes(self):

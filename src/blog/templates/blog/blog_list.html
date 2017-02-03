@@ -1,6 +1,7 @@
 {% extends "home/base.html"%}
 
 {% load thumbnail %}
+{% load taggit_templatetags2_tags %}
 
 
 {% block content %}
@@ -23,38 +24,46 @@
   <h1 style="color:skyblue">풍연블로그 <small>:풍연과 관련된 다양한 관심사들을 자유롭게 써보세요.</small></h1>
 </div>
 
-<div style="padding-left:80px;"> 
-  <div class="side-box" style="float:left;width:43%;padding:10px;margin:10px;border:solid 2px skyblue;">
+  <div style="padding-left:70px;">
+
+    <div class="side-box" style="float:left;width:44%;padding:10px;margin:10px;border:solid 2px skyblue;">
+      <h4 style="color:skyblue;text-align:center;">조회수 TOP5</h4>
+      {% for hit in rank_hit %}
+      <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
+      {% endfor  %}
+    </div>
+
+    <div class ="side-box" style="float:left;width:44%;padding: 10px;margin:10px;border:solid 2px skyblue;">
+      <h4 style="color:skyblue;text-align:center">좋아요 TOP5</h4></hr>
+
+      {% for like in rank_like %}
+      <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
+      {% endfor  %}
+
+    </div>
+    <div class ="side-box" style="float:left;width:90%;padding: 10px;margin:10px;border:solid 2px skyblue;">
+      <h4 style="color:skyblue;text-align:center;">태그 클라우드</h5>
+      {% get_tagcloud as tags for 'blog.Blog' %}
+      {% for tag in tags %}
+      <font size={{tag.weight|floatformat:0}}><a href="{% url "blog:tagged" tag.slug %}">{{tag}}</a></font>
+      {% endfor %}
+
+    </div>
 
 
-    <h4 style="color:skyblue;text-align:center;">조회수 TOP5</h4>
-    {% for hit in rank_hit %}
-    <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
-    {% endfor  %}
+
   </div>
-
-  <div class ="side-box" style="float:left;width:43%;padding: 10px;margin:10px;border:solid 2px skyblue;">
-    <h4 style="color:skyblue;text-align:center">좋아요 TOP5</h4></hr>
-
-    {% for like in rank_like %}
-    <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
-    {% endfor  %}
-
-  </div>
-</div>
-
-
 
 <div class="col-md-12" style="width:97%;padding-left:50px;margin-right:20px;">  
 
   <form method="GET" action="">
     <div style="margin:20px;" class="input-group">
       <input style="height:50px;" type="text" class="form-control" name="q" value='{{request.GET.q}}' placeholder="찾고싶은 블로그 글을 검색하세요.">
-    <span style=padding-left:10px; class="input-group-btn">
-      <button class="btn btn-default" type="button">검색</button>
-    </span>
-  </div>
-</form>
+      <span style=padding-left:10px; class="input-group-btn">
+        <button class="btn btn-default" type="button">검색</button>
+      </span>
+    </div>
+  </form>
 
 
 
@@ -103,9 +112,9 @@
 
             <div class="row-picture">
 
-            {% thumbnail blog.photo "100x100" crop="center" as thumb %}
-            <img src="{{ thumb.url }}">
-            {% endthumbnail %}
+              {% thumbnail blog.photo "100x100" crop="center" as thumb %}
+              <img src="{{ thumb.url }}">
+              {% endthumbnail %}
 
 
             </div>
@@ -121,7 +130,7 @@
             </div>
 
           </div>
-   </br></hr>
+              </br></hr>
               <h5 style="text-align:right;"><a href="{{blog.get_absolute_url}}#disqus_thread">0 Comment</a> | {{blog.likes}} likes | {{blog.hit}} hit</h5>
 
               <li class="tags">
@@ -144,31 +153,10 @@
     {% endfor %}
 
   </div>
+
+
+
 </div>
-
-<!--
-  <div cdlass="row">
-  {% for blog in blog_list %}
-
-  <div class="col-sm-6 col-md-4">
-  <div class="thumbnail">
-
-  <a href="{{blog.get_absolute_url}}"><img src="{{blog.photo.url}}"></a>
-
-  <div class="caption">
-  <p>{{blog.timestamp}} | {{blog.name}}</p>
-  <h3>{{blog.title}}</h3></hr>
-
-  <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-  <h5><a href="{{blog.get_absolute_url}}#disqus_thread">0 Comment</a> | {{blog.likes}} likes | {{blog.hit}} hit</h5>
-
-  </div>
-  </div>
-  </div>
-  {% endfor %}
-
-  </div>
--->
 
 
 </div>
@@ -178,79 +166,5 @@
 
 
 
-<!--
-  <div style="width:65%;float:left;" id="blog" class='col-md-6 content-markdwon'>
 
-
-  {% for blog in blog_list %}
-
-  <div class="row">
-  <div style="border:solid 2px skyblue;" class="thumbnail">
-  <div class="caption">
-  <h5>{{blog.timestamp}}</h5>
-  </hr>
-  <h4><a href='{{ blog.get_absolute_url}}'>{{ blog.title }}</a>
-  <small>{{ blog.timestamp | timesince}} 전에 작성</small>
-  </h4><br/>
-
-  <div style="font-size:15px;text-align:right;">
-  <a href="{{blog.get_absolute_url}}#disqus_thread">0 Comment</a> | {{blog.likes}} likes | {{blog.hit}} hit
-  </div>
-
-
-  </div>
-
-  </div>
-  <hr/>
-  </div>
-  {% endfor %}
-
-  </div>
--->
-
-<!--
-  <aside style="width:35%;float:left" class="col-md-4">
-
-
-  <div style="margin:20px;" class="input-group">
-  <input type="text" class="form-control" placeholder="찾고싶은 풍연블로그 글을 검색하세요.">
-  <span style=padding-left:10px; class="input-group-btn">
-  <button class="btn btn-default" type="button">검색</button>
-  </span>
-  </div>
-
-  <div style="height:50px;margin:10px;">
-  <a href="{% url "blog:blog_create" %}"><button style="height:50px;" type="button" class="btn btn-success col-md-12"><span style="font-weight:bold;">풍연블로그 글쓰기</span></button></a>
-  </div>
-
-
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px skyblue;height:300px">
-
-
-  <h4 style="color:skyblue;text-align:center;">조회수 TOP5</h4>
-  {% for hit in rank_hit %}
-  <li style="list-style-type:none;padding:5px;"><a href="{{hit.get_absolute_url}}">{{hit}}</a> - {{hit.hit}} hits</li>
-  {% endfor  %}
-  </div>
-
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px skyblue;height:300px">
-  <h4 style="color:skyblue;text-align:center">좋아요 TOP5</h4></hr>
-
-  {% for like in rank_like %}
-  <li style="list-style-type:none;padding:5px;"><a href="{{like.get_absolute_url}}">{{like}}</a> - {{like.likes}} likes</li>
-  {% endfor  %}
-
-  </div>
-
-
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px skyblue;min-height:300px">
-  <h4 style="color:skyblue;text-align:center">최근에 올라온 글들</h4></hr>
-
-  {% for post in recent_post %}
-  <li style="list-style-type:none;padding:5px;"><a href="{{post.get_absolute_url}}">{{post.title}}</a> - <small>{{post.timestamp}}</small></li>
-  {% endfor  %}
-
-  </div>
-  </aside>
--->
 {% endblock content %}
