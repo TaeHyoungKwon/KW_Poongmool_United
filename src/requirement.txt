@@ -1,0 +1,7 @@
+django==1.9
+sorl-thumbnail
+taggit
+django_summernote
+happenings
+taggit_templatetags2
+Pillow
