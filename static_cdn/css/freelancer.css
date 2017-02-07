@@ -291,7 +291,6 @@ button.likes {
 
 .heart-particle-box {
   position: relative;
-  left: 30%;
 }
 
 #heart-icon {
@@ -345,27 +344,17 @@ button.likes {
 
 @keyframes flows {
   0% {
-    opacity: 0;
-    bottom: 0%;
-    left: 10%;
-  }
-  40% {
-    opacity: 0.8;
+    opacity: 0.4;
+    bottom:0%;
+    left: 40%;
   }
   50% {
-    opacity: 1;
-    left: 0%;
-  }
-  60% {
-    opacity: 0.3;
-  }
-  80% {
-    bottom: 60%;
+    bottom: 50%;
   }
   100% {
-    opacity: 0;
-    bottom: 80%;
-    left: 0%;
+    opacity: 1;
+    bottom:100%;
+    left: 30%;
   }
 }
 

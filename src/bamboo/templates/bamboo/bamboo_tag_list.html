@@ -47,17 +47,6 @@
   {% endfor %}
 
 </div>
-
-
-<aside style="width:35%;float:left" class="col-md-4">
-  <div class="side-box" style="padding: 10px;margin:10px;border:solid 2px green;height:300px">
-    <h4 style="color:green;text-align:center;">전체  태그 리스트</h4>
-    {% for tag in tags %}
-    <li><a href="{% url "bamboo:tagged" tag.slug%}">{{tag}}</a></li>
-    {% endfor  %}
-  </div>
-</aside>
-
 </div>
 {% endblock content %}
 

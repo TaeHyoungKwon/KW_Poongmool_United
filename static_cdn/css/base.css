@@ -211,7 +211,7 @@ list-style:none;
 
 .bs-slider{
     overflow: hidden;
-    max-height: 350px;
+    max-height: 600px;
     position: relative;
     background: #000000;
 }
@@ -229,7 +229,7 @@ list-style:none;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.40);
+    background-color: rgba(0, 0, 0, 0.30);
 }
 .bs-slider > .carousel-inner > .item > img,
 .bs-slider > .carousel-inner > .item > a > img {
@@ -317,7 +317,7 @@ list-style:none;
 }
 .control-round .carousel-control.right>span:nth-child(1){
     right: 45%;
-}
+  }
 
 
 
