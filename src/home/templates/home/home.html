@@ -59,7 +59,7 @@
     <div class="item">
 
       <!-- Slide Background -->
-      <img src=" https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/14045817_1198014583603013_5138112768223319091_n.jpg?oh=a2f67128c5710f5d66ca37d0ed0dbb01&oe=592175FD " alt="Bootstrap Touch Slider"  class="slide-image"/>
+      <img src="https://scontent.ficn1-1.fna.fbcdn.net/v/t1.0-9/18739941_713634735485228_836821278755636332_n.jpg?oh=10fb9c88cb14ef0a3d48259295d501a2&oe=59CB6580" alt="Bootstrap Touch Slider"  class="slide-image"/>
       <div class="bs-slider-overlay"></div>
       <!-- Slide Text Layer -->
       <div class="slide-text slide_style_right">
@@ -358,7 +358,7 @@
               {% thumbnail album.photo "200x200" crop="center" as thumb %}
               <a href="{% url "album:album_detail" album.id %}"><img src="{{ thumb.url }}"></a>
               {% endthumbnail %}
-              <p style=padding-left:100px;font-size:15px;">{{album.title}}</p>
+              <p style=font-size:15px;">{{album.title}}</p>
 
             </div>
             {% endfor %}
