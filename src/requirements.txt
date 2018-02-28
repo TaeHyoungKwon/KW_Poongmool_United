@@ -1,6 +1,10 @@
-django==1.9
-sorl-thumbnail
-django-taggit
-django-summernote
-django-happenings
-django-taggit-templatetags2
+Django==1.9
+django-classy-tags==0.8.0
+django-happenings==0.3.3
+django-summernote==0.8.8.4
+django-taggit==0.22.2
+django-taggit-templatetags2==1.6.1
+Pillow==5.0.0
+pytz==2018.3
+six==1.11.0
+sorl-thumbnail==12.4.1
